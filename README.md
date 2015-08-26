@@ -1,17 +1,19 @@
-## VK API module for Node.js
+VK API module for Node.js
+=========================
 
-### Installation and build
+Installation and building
+-------------------------
 
 ```sh
-$ git clone https://github.com/thepheer/vk.git
-$ cd vk
+$ git clone https://github.com/thepheer/vk.git && cd vk
 $ npm install
 $ npm run build
 ```
 
-### Example usage
+Usage example
+-------------
 
-JavaScript:
+##### JavaScript:
 
 ```js
 var VK = require('./vk/');
@@ -63,7 +65,7 @@ vk.login('username or phone number', 'password')
     var largestPhotoURL = photo
       .sizes[photo.sizes.length - 1].src;
 
-    // mapping will took a while
+    // mapping will take a while
     // we don't want to look at
     // empty console window, right?
     console.log('Done for id:', friend);
@@ -77,10 +79,10 @@ vk.login('username or phone number', 'password')
 
 // you may have noticed that
 // there is no error handling at all
-// because it's a final part of the example :)
+// because it's the final part of the example
 
 // look how easy we can handle all the errors
-// that may happen in any part of our code
+// that may happen in any part of the code
 
 // this will catch any API errors
 .catch(VK.APIError, console.error)
@@ -92,7 +94,8 @@ vk.login('username or phone number', 'password')
 .catch(console.error);
 ```
 
-CoffeeScript:
+##### CoffeeScript:
+
 ```coffee
 # same code as above
 
