@@ -6,25 +6,11 @@ events  = require 'events'
 request = request.defaults followAllRedirects: true
 Request = Promise.promisify request
 
-VK = exports
+
+VK                = exports
 VK.LongPollUpdate = require './LongPollUpdate'
-
-
-perms = 'notify,friends,photos,audio,video,offers,questions,'  +
-        'pages,menu,,status,notes,messages,wall,,ads,offline,' +
-        'docs,groups,notifications,stats,,email,adsweb'
-
-VK.perms = {}
-VK.perms[x] = 1<<i for x, i in perms.split ',' when x
-VK.perms.all = -1 + Object.keys VK.perms
-  .map (key) -> VK.perms[key]
-  .reduce (a, b) -> a | b
-
-
-VK.Android = [ 2274003, 'hHbZxrka2uZ6jB1inYsH' ]
-VK.WPhone  = [ 3502557, 'PEObAuQi6KloPM4T30DV' ]
-VK.iPhone  = [ 3140623, 'VeWdmVclDCtn6ihuP1nt' ]
-VK.iPad    = [ 3682744, 'mY6CDUswIVdJLCD3j15n' ]
+VK.perms          = require './perms'
+VK.apps           = require './apps'
 
 
 class VK.Error extends Error
@@ -51,7 +37,7 @@ class VK.APIError extends VK.Error
 class VK.API extends events.EventEmitter
 
   v:     5.37
-  app:   VK.Android
+  app:   VK.apps.Android
   scope: VK.perms.all
   delay: 350
 
