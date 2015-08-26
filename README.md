@@ -91,3 +91,43 @@ vk.login('username or phone number', 'password')
 // and this will catch any others
 .catch(console.error);
 ```
+
+CoffeeScript:
+```coffee
+# same code as above
+
+VK = require './vk/'
+vk = new VK.API
+
+vk.login 'username or phone number', 'password'
+
+.then -> vk.api 'users.get'
+
+.then (users) ->
+  user = users[0]
+  name = user.first_name + ' ' + user.last_name
+  console.log name
+  vk.api 'friends.get', count: 5
+
+.then (friends) ->
+  console.log friends
+  friends.items
+
+.map (friend) ->
+  vk.api 'photos.get',
+    owner_id: friend
+    album_id: 'profile'
+    count: 1, rev: 1, photo_sizes: 1
+
+  .then (response) ->
+    photo = response.items[0]
+    largestPhotoURL = photo
+      .sizes[photo.sizes.length - 1].src
+    console.log 'Done for id:', friend
+    largestPhotoURL
+
+.then console.log
+.catch VK.APIError, console.error
+.catch VK.Error, console.error
+.catch console.error
+```
