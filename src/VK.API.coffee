@@ -123,31 +123,34 @@ class VK.API extends events.EventEmitter
 
     .nodeify callback
 
-  listen: (wait = 60) ->
-    server = null
+  poll: (wait = 60, callback) ->
+    @longPollServer = @longPollServer or
+      @api 'messages.getLongPollServer'
 
+    @longPollServer.then (server) ->
+      Request
+        url: 'http://' + server.server
+        json: true, qs:
+          act: 'a_check', wait: wait
+          mode: 2, key: server.key, ts: server.ts
+
+      .spread (r, json) ->
+        throw new Error if not json.updates?
+        server.ts = json.ts
+        json.updates
+
+      .map (update) ->
+        new VK.LongPollUpdate update
+
+    .catch (e) =>
+      @longPollServer = null
+      throw e
+
+    .nodeify callback
+
+  listen: (wait) ->
     do fn = =>
-      if not server
-        server = @api 'messages.getLongPollServer'
-
-      server.then (s) =>
-        Request
-          url: 'http://' + s.server
-          json: true, qs:
-            act: 'a_check', wait: wait
-            mode: 2, key: s.key, ts: s.ts
-
-        .spread (r, json) =>
-          if json.failed
-            server = null
-            throw new Error 'Long polling error'
-
-          for u in json.updates
-            u = new VK.LongPollUpdate u
-            @emit u.type, u.data
-
-          s.ts = json.ts
-
-      .catch (e) => @emit 'error', e
-      .then fn
-      return
+      @poll wait
+      .each (u) => @emit u.type, u.data
+      .then fn, fn
+    return
