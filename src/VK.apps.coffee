@@ -1,4 +1,6 @@
-module.exports =
+VK = require '../'
+
+VK.apps =
 
   Android: [ 2274003, 'hHbZxrka2uZ6jB1inYsH' ]
   WPhone:  [ 3502557, 'PEObAuQi6KloPM4T30DV' ]

@@ -1,4 +1,6 @@
-module.exports = class LongPollUpdate
+VK = require '../'
+
+class VK.LongPollUpdate
 
   cases =
     0:  [ 'message-', 'message_id', 0 ]
