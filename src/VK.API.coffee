@@ -15,8 +15,8 @@ class VK.API extends events.EventEmitter
   delay: 350
 
   constructor: (app, scope, v) ->
-    @v     = v if v?
-    @app   = app if app?
+    @v     = v     if v?
+    @app   = app   if app?
     @scope = scope if scope?
     @last  = Date.now() - @delay
     @parseScope()
@@ -111,7 +111,6 @@ class VK.API extends events.EventEmitter
     @last = Date.now() + delay
 
     Promise.delay delay
-
     .then ->
       Request
         url: 'https://api.vk.com/method/' + method
@@ -140,8 +139,8 @@ class VK.API extends events.EventEmitter
         server.ts = json.ts
         json.updates
 
-      .map (update) ->
-        new VK.LongPollUpdate update
+    .map (update) ->
+      new VK.LongPollUpdate update
 
     .catch (e) =>
       @longPollServer = null
