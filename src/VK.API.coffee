@@ -130,6 +130,7 @@ class VK.API extends events.EventEmitter
     @longPollServer.then (server) ->
       Request
         url: 'http://' + server.server
+        timeout: (wait + 1) * 1000
         json: true, qs:
           act: 'a_check', wait: wait
           mode: 2, key: server.key, ts: server.ts
