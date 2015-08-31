@@ -92,11 +92,11 @@ class VK.API extends events.EventEmitter
     @username = username if username?
     @password = password if password?
 
-    new Promise (done, fail) =>
-      if @username and @password
-        done if @secret then @directAuth() else @clientAuth()
-      else
-        fail new VK.Error 'No username/password given'
+    Promise.try =>
+      unless @username and @password
+        throw new VK.Error 'No username/password given'
+
+      if @secret then @directAuth() else @clientAuth()
 
     .then (session) => @session = session
     .nodeify callback
