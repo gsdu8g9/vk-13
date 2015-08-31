@@ -117,7 +117,8 @@ class VK.API extends events.EventEmitter
         json: true, qs: qs
 
     .spread (res, json) ->
-      throw new VK.APIError json.error if json.error
+      if json.error
+        throw new VK.APIError json.error
       json.response
 
     .nodeify callback
@@ -135,7 +136,8 @@ class VK.API extends events.EventEmitter
           mode: 2, key: server.key, ts: server.ts
 
       .spread (r, json) ->
-        throw new Error if not json.updates?
+        if not json.updates?
+          throw new VK.LongPollError json
         server.ts = json.ts
         json.updates
 

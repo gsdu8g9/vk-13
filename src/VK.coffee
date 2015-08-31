@@ -1,6 +1,7 @@
-require './VK.LongPollUpdate'
 require './VK.perms'
 require './VK.apps'
 require './VK.Error'
 require './VK.APIError'
+require './VK.LongPollError'
+require './VK.LongPollUpdate'
 require './VK.API'
