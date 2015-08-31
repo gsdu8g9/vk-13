@@ -1,11 +1,7 @@
 VK      = require '../'
 Promise = require 'bluebird'
-request = require 'request'
 qstring = require 'querystring'
 events  = require 'events'
-
-request = request.defaults followAllRedirects: true
-Request = Promise.promisify request
 
 class VK.API extends events.EventEmitter
 
@@ -37,7 +33,7 @@ class VK.API extends events.EventEmitter
 
   directAuth: ->
     console.error 'Logging in (direct auth)'
-    Request
+    VK.request
       json: true, method: 'POST'
       url: 'https://oauth.vk.com/token',
       form:
@@ -52,13 +48,13 @@ class VK.API extends events.EventEmitter
 
   clientAuth: ->
     console.error 'Going to login page'
-    Request
-      jar: jar = request.jar()
+    VK.request
+      jar: jar = VK.request.jar()
       url: 'https://m.vk.com/'
 
     .spread (res, body) =>
       console.error 'Logging in'
-      Request
+      VK.request
         jar: jar, method: 'POST'
         url: /action="(.*?)"/.exec(body)[1]
         form: email: @username, pass: @password
@@ -72,7 +68,7 @@ class VK.API extends events.EventEmitter
         throw new VK.Error 'Cannot login using given username/password'
 
       console.error 'Getting access token'
-      Request
+      VK.request
         url: 'https://oauth.vk.com/authorize'
         jar: jar, qs:
           display: 'mobile', response_type: 'token'
@@ -82,7 +78,7 @@ class VK.API extends events.EventEmitter
       return [res, body] if res.request.uri.hash
 
       console.error 'Confirming permissions'
-      Request
+      VK.request
         jar: jar, url: /action="(.*?)"/.exec(body)[1]
 
     .spread (res, body) ->
@@ -112,7 +108,7 @@ class VK.API extends events.EventEmitter
 
     Promise.delay delay
     .then ->
-      Request
+      VK.request
         url: 'https://api.vk.com/method/' + method
         json: true, qs: qs
 
@@ -128,7 +124,7 @@ class VK.API extends events.EventEmitter
       @api 'messages.getLongPollServer'
 
     @longPollServer.then (server) ->
-      Request
+      VK.request
         url: 'http://' + server.server
         timeout: (wait + 1) * 1000
         json: true, qs:
