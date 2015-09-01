@@ -150,5 +150,4 @@ class VK.API extends events.EventEmitter
     do fn = =>
       @poll wait
       .each (u) => @emit u.type, u.data
-      .then fn, fn
-    return
+      .done fn, fn
