@@ -6,7 +6,7 @@ events  = require 'events'
 class VK.API extends events.EventEmitter
 
   v:     5.37
-  app:   VK.apps.Android
+  app:   VK.apps.iPhone
   scope: VK.perms.all
   delay: 350
 
