@@ -14,7 +14,7 @@ Usage example
 ##### JavaScript:
 
 ```js
-var VK = require('./vk/');
+var VK = require('vk');
 var vk = new VK.API(/* APP_ID, SCOPE, API_VERSION */);
 
 vk.login('username or phone number', 'password')
@@ -97,7 +97,7 @@ vk.login('username or phone number', 'password')
 ```coffee
 # same code as above
 
-VK = require './vk/'
+VK = require 'vk'
 vk = new VK.API
 
 vk.login 'username or phone number', 'password'
