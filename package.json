@@ -1,19 +1,18 @@
 {
   "name": "vk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "VK API",
   "author": "",
   "license": "ISC",
   "main": "lib/VK.js",
   "scripts": {
     "build": "coffee  -bo lib -c src",
-    "watch": "coffee -wbo lib -c src"
+    "watch": "coffee -wbo lib -c src",
+    "install": "npm run build"
   },
   "dependencies": {
+    "coffee-script": "^1.9.3",
     "bluebird": "^2.9.34",
     "request": "^2.60.0"
-  },
-  "devDependencies": {
-    "coffee-script": "^1.9.3"
   }
 }

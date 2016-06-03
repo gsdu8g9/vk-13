@@ -1,13 +1,11 @@
 VK API module for Node.js
 =========================
 
-Installation and building
+Installation
 -------------------------
 
 ```sh
-$ git clone https://github.com/thepheer/vk.git && cd vk
-$ npm install
-$ npm run build
+npm install https://github.com/thepheer/vk.git
 ```
 
 Usage example
